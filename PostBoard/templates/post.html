@@ -1,0 +1,77 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+post
+{% endblock title %}
+
+{% load static %}
+
+{% block content %}
+<h1><font color="red">Объявление #{{ post.pk }}: {{ post.title }}</font></h1>
+<hr>
+<p> </p>
+<div style="text-align: left;">Дата объявления: {{ post.time_in }}</div>
+<div style="text-align: left;">Автор объявления: {{ post.author }}</div>
+<div style="text-align: left;">Категория: {{ post.category }}</div>
+<hr>
+<p> </p>
+<div style="text-align: justify;">{{ post.text|safe }}</div>
+
+{% if request.user == post.author %}
+    <a class="btn btn-primary" href="/ad/{{ post.id }}/update" role="button">Редактировать</a>
+    <a class="btn btn-danger" href="/ad/{{ post.id }}/delete" role="button">Удалить</a>
+{% else %}
+
+{% endif %}
+
+<p></p>
+<hr>
+<h3>Комментарии</h3>
+
+<br>
+
+{% for item in post.comments.all %}
+    {% if item.status == True %}
+
+<div class="accordion" id="accordionPanelsStayOpenExample">
+    <div class="accordion-item">
+    <h2 class="accordion-header" id="headingOne">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+        Автор комментария: {{item.author}}
+      </button>
+    </h2>
+    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        {{item.text}}<hr>
+          Дата создания комментария: {{item.time_in}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<p style="text-align: center;">&nbsp;</p>
+</li>
+{% endif %}
+{% endfor %}
+<p style="text-align: center;">&nbsp;</p>
+
+{% if request.user == post.author %}
+<h5><font color="red">Вы не можете комментировать объявления</font></h5>
+{% else %}
+
+    {% if user.is_authenticated %}
+    <form action="" id="add_form" method="post">
+        {% csrf_token %}
+        {{ form.media }}
+        {{ form.as_p }}
+    </form>
+
+    <button form="add_form" type="submit" class="btn btn-primary">Добавить</button>
+
+    {% endif %}
+{% endif %}
+<p>&nbsp;</p>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+{% endblock content %}
+

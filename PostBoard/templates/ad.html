@@ -1,0 +1,64 @@
+{% extends 'flatpages/default.html' %}
+{% block title %}
+Ad
+{% endblock title %}
+{% block content %}
+
+<h1><font color="red">ВСЕ ОБЪЯВЛЕНИЯ</font></h1>
+
+<hr>
+<form style="text-align: midle;" action="" method="get">
+    {{ filterset.form.as_p }}
+    <input class="btn btn-primary" type="submit" value="Найти">
+</form>
+
+{% for i in ad %}
+    <hr>
+
+        <tr>
+            <a class="nav-link" href="/ad/{{ i.id }}"><b><p style="text-align: center;"><h3><font color="red">Объявление: {{ i.title }}</font></h3></p></b></a>
+<hr>
+
+               <div style="text-align: left;">Дата: {{ i.time_in }}</div>
+               <div style="text-align: left;">Автор: {{ i.author }}</div>
+               <div style="text-align: left;">Категория: {{ i.category }}</div>
+               <div style="text-align: left;"></div>
+            <hr>
+               <div style="text-align: left;">{{ i.text|safe }}</div>
+<hr>
+
+        </tr>
+    </table>
+<table>
+    <tr>
+{% if request.user == post.author %}
+    <a class="btn btn-warning" href="/ad/{{ post.id }}/update" role="button">Изменить</a>
+    <a class="btn btn-danger" href="/ad/{{ post.id }}/delete" role="button">Удалить</a>
+
+{% else %}
+
+{% endif %}
+    </tr>
+</table>
+
+    {% endfor %}
+
+{% if page_obj.has_previous %}
+       <a href="?page=1">Начало</a>
+       {% if page_obj.previous_page_number != 1 %}
+           ...
+           <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+
+   {# Информация о текущей странице #}
+   {{ page_obj.number }}
+   {# Информация о следующих страницах #}
+   {% if page_obj.has_next %}
+       <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+       {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+           <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+       {% endif %}
+   {% endif %}
+{% endblock content %}

@@ -1,0 +1,56 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+<h1><font color="red">ОТКЛИКИ</font></h1>
+
+<hr>
+
+{%if user_posts_comments%}
+{%for i in user_posts_comments%}
+
+<div class="card">
+  <div class="card-header">
+    {{i.time_in}}
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">{{i.ad}}</h5>
+    <p class="card-text">{{i.text}}</p>
+      {%if i.status == False%}
+    <a class="btn btn-success" href="{% url 'comments_accept' i.id %}" role="button">Принять</a>
+      <a class="btn btn-danger" href="{% url 'comments_delete' i.id %}" role="button">Удалить</a>
+      {%else%}
+      <div class="alert alert-success" role="alert">
+          Комментарий принят
+      </div>
+      <a class="btn btn-danger" href="{% url 'comments_delete' i.id %}" role="button">Удалить</a>
+      {%endif%}
+  </div>
+</div>
+<p>&nbsp;</p>
+
+{%endfor%}
+{%else%}
+<h5><font color="red">Комментарии отсутствуют</font></h5>
+{%endif%}
+
+{% if page_obj.has_previous %}
+       <a href="?page=1">Начало</a>
+       {% if page_obj.previous_page_number != 1 %}
+           ...
+           <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+
+   {# Информация о текущей странице #}
+   {{ page_obj.number }}
+
+   {# Информация о следующих страницах #}
+   {% if page_obj.has_next %}
+       <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+       {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+           <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+       {% endif %}
+   {% endif %}
+
+{% endblock content %}

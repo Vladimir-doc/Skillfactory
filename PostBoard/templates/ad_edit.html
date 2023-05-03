@@ -1,0 +1,15 @@
+{% extends 'flatpages/default.html' %}
+{% load static %}
+{% block content %}
+<h1><font color="red">СОЗДАНИЕ ОБЪЯВЛЕНИЯ</font></h1>
+
+<hr>
+
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.media }}
+    {{ form.as_p }}
+    <input class="btn btn-primary" type="submit" value="Опубликовать">
+</form>
+
+{% endblock content %}
