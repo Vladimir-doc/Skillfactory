@@ -1,0 +1,25 @@
+{% extends 'default.html' %}
+
+{% block title %}
+Sign up
+{% endblock title %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <h4 class="text-3xl lg:text-6xl text-white">Wellcome, <u>{{ user.username }}</u>!</h4>
+    {% else %}
+        <h2 class="text-3xl lg:text-6xl text-white">Sign up</h2>
+        <hr>
+        <br>
+        <p class="text-3xl lg:text-3xl text-white"><i>Complete the form:</i></p>
+        <br>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button 
+            class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700"
+            id="chat-message-submit"
+        >SignUp</button>
+        </form>
+    {% endif %}
+{% endblock content %}

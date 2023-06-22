@@ -1,0 +1,32 @@
+{% extends 'default.html' %}
+
+{% block title %}
+Profile {{ user.username }}
+{% endblock title %}
+
+{% block content %}
+<div class="content-section">
+    <div class="media">
+        <div class="media-body">
+        <p>&nbsp;</p>
+        <h2 class="text-3xl lg:text-6xl text-white">Profile: {{ user.username }}</h2>
+        <hr>
+        {% if user.profile.avatar %}
+            <img src="{{ user.profile.avatar.url }}" alt="avatar" style="max-height:200px">
+        {% endif %}
+        <p>&nbsp;</p>
+        <p class="text-1xl lg:text-3xl text-white">Enter personal info:</p>
+        </div>
+        <br>
+    </div>
+    <form method="post" action="" method="post" action="/accounts/profile/" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ user_form.as_p }}
+        {{ profile_form.as_p }}
+        <button 
+            class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700"
+            id="chat-message-submit"
+        >Save</button>
+    </form>
+</div>
+{% endblock content %}

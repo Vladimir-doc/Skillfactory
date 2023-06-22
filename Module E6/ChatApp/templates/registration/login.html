@@ -1,0 +1,26 @@
+{% extends 'default.html' %}
+
+{% block title %}
+Log in
+{% endblock title %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <p>&nbsp;</p>
+        <h4><p class="text-xl text-white">You <b>ChatApp!</b>, <u>{{ user.username }}</u>!</p></h4>
+    {% else %}
+        <h2 class="text-xl text-white">Enter:</h2>
+        <hr>
+        <p>&nbsp;</p>
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <br>
+            <button 
+            class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700"
+            id="chat-message-submit"
+        >LOGIN</button>
+            <input type="hidden" name="next" value="{{ next }}">
+        </form>
+    {% endif %}
+{% endblock content %}

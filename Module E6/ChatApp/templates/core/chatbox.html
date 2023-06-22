@@ -1,0 +1,157 @@
+{% extends 'default.html' %}
+
+{% block title %}
+onChat!|{{ room_name }}
+{% endblock title %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <div class="container">
+            <form>
+                <div class="form-group">
+                    <br>
+                    <h3 class="text-xl text-white"><b>Chat-room:</b> <u>{{ room_name }}</u></h3><br>
+                    <textarea class="form-control" id="chat-text" readonly rows="12" cols="24"></textarea><br>
+                    {% if user.profile.avatar %}
+                    <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="logo-image"
+                        style="float: left; width: 50px; height: 50px; border-radius: 15px;">
+                    {% endif %}
+                    
+                </div>
+                <div class="form-group">
+                    {% csrf_token %}
+                    <br>
+                    <input class="form-control" placeholder="Text you message >>>" id="chat-message-input" type="text"/>
+                </div>
+                <div style="display: flex;">
+                <input class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700" id="chat-message-submit" type="button"
+                       style="width: 10%;" value="Send"/><br>
+                <input class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700" id="leave-room-submit" type="button"
+                       style="width: 10%;" value="Quit"/><br>
+                </div>
+            
+                <div id="connections"></div>
+                <hr>
+                <br>
+                <p class="text-xl text-white"><b>Users onChat!</b> <u>{{ room_name }}</u>:</p>
+                <p class="text-1xl lg:text-1xl text-white"><i>(Click on User and text him private message)</i></p>
+                <br>
+                <div class="text-1xl lg:text-1xl text-white" id="users-in-room">nobody</div>
+            </form>
+        </div>
+        
+        <button 
+        class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700"
+        id="chat-message-submit"
+        >{{ request.user.username|json_script:"user_username" }}</button><br>
+         <button 
+        class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700"
+        id="chat-message-submit"
+        >{{ room_name|json_script:"room-name" }}</button><br>
+        
+
+        <script>
+            base_url =  document.location.origin;
+            const roomName = JSON.parse(document.getElementById('room-name').textContent);
+            const userName = JSON.parse(document.getElementById('user_username').textContent);
+
+            const chatSocket = new WebSocket(
+                'ws://'
+                + window.location.host
+                + '/ws/core/'
+                + roomName
+                + '/'
+            );
+
+            chatSocket.onmessage = async function (e) {
+                const data = JSON.parse(e.data);
+                suffix = data.from === 'room' ? '' : ' to You';
+                document.querySelector('#chat-text').value += data.username.toUpperCase() + suffix + ' : '
+                    + data.message  + '\n';
+                scrollToBottom();
+                await usersOfRoom(data.usernames);
+            };
+
+            chatSocket.onclose = function(e) {
+                console.error('Chat socket closed unexpectedly with error:', e);
+            };
+
+            document.addEventListener('submit', function (e) {
+                e.preventDefault();
+                document.querySelector('#chat-message-submit').click();
+            });
+
+            document.querySelector('#chat-message-submit').addEventListener('click', function (e) {
+                const messageInputDom = document.querySelector('#chat-message-input');
+                const message = messageInputDom.value;
+                chatSocket.send(JSON.stringify({
+                    'message': message,
+                    'username': userName,
+                    'whom': 'room',
+                }));
+                messageInputDom.value = '';
+                return false;
+            });
+
+            document.querySelector('#leave-room-submit').addEventListener('click', function (e) {
+                document.location.replace(`${base_url}/core/`);
+            });
+
+            function scrollToBottom() {
+                let objDiv = document.querySelector('#chat-text');
+                objDiv.scrollTop = objDiv.scrollHeight;
+            };
+
+            function sendToUser(channelName) {
+                tagS = `${channelName.split('!')[1]}-input`;
+                const messageInputDom = document.getElementById(tagS);
+                const message = messageInputDom.value;
+                chatSocket.send(JSON.stringify({
+                    'message': message,
+                    'username': userName,
+                    'whom': channelName,
+                }));
+                messageInputDom.value = '';
+                return false;
+            };
+
+            function closeToUser(tagClose) {
+                removed = document.getElementById(tagClose);
+                document.getElementById('connections').removeChild(removed);
+            };
+
+            function writeToUser (channelName, userName) {
+                tagP = `p-${channelName.split('!')[1]}`;
+                tagS = `${channelName.split('!')[1]}`;
+                userMessageInput = `<div id="` + tagS + `-close"><div class="form-group">{% csrf_token %}`
+                    + `<input class="form-control" size="25" placeholder="Text to ` + userName + ` >>>" id="` + tagS
+                    + `-input" type="text"/></div>`
+                    + `<div style="display: flex;"><input class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700" id="` + tagS + `-submit" type="button" `
+                    + `onClick="sendToUser('` + channelName + `')" style="width: 14%;" value="Send to ` + userName
+                    + `"/>&nbsp;<input class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700" type="button" `
+                    + `onClick="closeToUser('` + tagS + `-close')" style="width: 10%;" value="Cancel"/></div><br></div>`;
+                document.getElementById('connections').innerHTML += userMessageInput;
+            };
+
+            function usersOfRoom (userDict) {
+                if (userDict != 0) {
+                    document.querySelector('#users-in-room').innerHTML = '';
+                }
+                for (let u in userDict) {
+                    tagU = u.split('!')[1];
+                    roomUser = `<p id="p-` + tagU + `"><button type="button" id="` + tagU + `" onClick="writeToUser('`
+                        + u + `', '` + userDict[u] + `')">` + userDict[u] + `</button></p>`;
+                    document.querySelector('#users-in-room').insertAdjacentHTML('beforeend', roomUser);
+                }
+            };
+        </script>
+    {% else %}
+    <hr>
+    <br>
+    <h2 class="text-xl text-white"><b>onChat!</b> waiting for you! Lets authorization or registration right now!  </h2>
+    <br>
+    <a class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700" style="width: 7%" type="button" href="/accounts/login/">LOGIN</a>
+    <br>
+    <a class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700" style="width: 7%" type="button" href="/accounts/signup/">SIGNUP</a>
+    {% endif %}
+{% endblock content %}

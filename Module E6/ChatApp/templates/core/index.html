@@ -1,0 +1,77 @@
+{% extends 'default.html' %}
+
+{% block title %}
+be onChat!
+{% endblock title %}
+
+{% block content %}
+<br>
+<h1 class="text-xl text-white"><b>Wellcome to ChatApp!</b> <u>{{ user.username }}</u></h1>
+    {% if user.is_authenticated %}
+        <br>
+        {% if user.profile.avatar %}
+            <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="logo-image"
+                style="float: center; width: 50px; height: 50px; border-radius: 15px;">
+        {% endif %}
+        <br>
+        <h3 class="text-xl text-white">Let's create chat-room!</h3>
+        <input class="form-control" id="room-name-input" type="text" size="30"><br>
+        <input class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700"
+            id="room-name-submit" type="button" value='Done'><br>
+        <br>
+        <hr>
+        <br>
+        <h3 class="text-xl text-white"><b>Choose chat-room:</b></h3>
+        <br>
+        <div id="rooms-list"><i>no chat-rooms for now</i></div>
+        <button 
+        class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700">{{ rooms|json_script:"rooms" }}</button><br>
+       
+        <script>
+            document.querySelector('#room-name-input').focus();
+            document.querySelector('#room-name-input').onkeyup = function(e) {
+                if (e.keyCode === 13) {
+                    document.querySelector('#room-name-submit').click();
+                }
+            };
+
+            document.querySelector('#room-name-submit').onclick = function(e) {
+                var roomName = document.querySelector('#room-name-input').value;
+                if (/^[a-z0-9\s]+$/i.test(roomName)) {
+                    window.location.pathname = '/core/' + roomName + '/';
+                } else { alert('Use english, numbers and spaces only'); }
+            };
+
+            function roomsList(rooms) {
+                if (rooms.length != 0) {
+                    roomsOpened = '';
+                    for (let r of rooms) {
+                        roomsOpened += `<p class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700"><a href="` + r + `/">` + r + `</a></p>`;
+                    }
+                } else {
+                    roomsOpened = `<i>no chat-rooms for now</i>`
+                };
+                document.getElementById("rooms-list").innerHTML = roomsOpened;
+            }
+
+            async function roomsLoader(callback) {
+                const roomsUpload = await fetch('./roomsupdate/')
+                        .then(response => response.json());
+                callback(roomsUpload);
+            };
+
+            rooms = JSON.parse(document.getElementById('rooms').textContent);
+            roomsList(rooms);
+            setTimeout(roomsLoader, 1000, roomsList);
+            setInterval(roomsLoader, 30000, roomsList);
+        </script>
+    {% else %}
+    <hr>
+    <br>
+    <h2 class="text-xl text-white"><b>ChatApp!</b> waiting for you! Lets authorization or registration right now!  </h2>
+    <br>
+    <a class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700" style="width: 7%" type="button" href="/accounts/login/">LOGIN</a>
+    <br><br>
+    <a class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700" style="width: 7%" type="button" href="/accounts/signup/">SIGNUP</a>
+    {% endif %}
+{% endblock content %}
