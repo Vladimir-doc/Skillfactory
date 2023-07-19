@@ -1,0 +1,336 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+
+body {
+  margin: 0;
+  font-family: 'Raleway';
+  font-size: 16px;
+  line-height: 1.8em;
+  background-color: #ccc;
+}
+
+a {
+  color: #378686;
+  text-decoration: none;
+}
+
+a:hover {
+  opacity: 0.5;
+}
+
+article {
+  padding:0 1em;
+}
+
+section{
+  margin: 1em;
+  padding: 1em;
+}
+
+header, main, footer {
+  margin: 0 auto;
+}
+
+header {
+  padding: 1em;
+  text-align: center;
+  
+  background-image: url('./img/head.png');
+  background-size: cover;
+  background-position: fixed;
+  color:rgb(46, 53, 50)
+}
+
+
+.headfoto h1 {
+  text-transform: uppercase;
+  text-shadow: rgb(148, 213, 239) 1px 0 10px;
+  margin: 0.01em 0;
+  color:#849e9d
+}
+
+.texthead {
+  text-shadow: rgb(148, 213, 239) 1px 0 10px;
+  color: white
+
+}
+
+h3 {
+  text-transform: uppercase;
+}
+
+h3, h4 {
+  font-weight: bold;
+}
+
+main {
+  max-width: 1140px;
+}
+
+main section:not(:last-child) {
+  border-bottom: 1px solid #ccc;
+}
+
+.fab {
+  border: 1px solid white;
+  border-radius: 50%;
+  font-size: 1.5em;
+  width: 1.5em;
+  height: 1.5em;
+  line-height: 1.5em;
+  margin: 5px;
+  text-align: center;
+}
+
+a .fab {
+  color: white;
+}
+
+
+.course {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+.course .title {
+  color: #509e98;
+  -ms-flex: 0 0 33.3%;
+  flex: 0 0 33.3%;
+  max-width: 33%;
+}
+
+.course .descrition {
+  -ms-flex: 0 0 66.6%;
+  flex: 0 0 66.6%;
+  max-width: 66.6%;
+}
+
+.course .descrition p {
+  padding-left: 1em;
+}
+
+
+
+.education{
+	width: 65%;
+	color: #26252d;
+  display: flex;
+  flex-flow: column wrap;
+  height: 100%;
+}
+  
+
+.education .education_item {
+	color: #26252d;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+.education .education_date{
+	display: flex;
+}
+
+.education .education_date .year{
+	padding-right: 35px;
+	width: 115px;
+	position: relative;
+  color: #509e98;
+}
+
+.education .education_date .content{
+	padding-left: 35px;
+	margin-bottom: 20px;
+	width: calc(100% - 115px);
+}
+
+.education .education_date .year:before{
+	content: "";
+	position: absolute;
+	top: 5px;
+	right: 0;
+	width: 10px;
+	height: 10px;
+	background: #fff;
+	border: 1px solid #26252d;
+	border-radius: 50%;
+}
+
+.education .education_date .year:after{
+	  content: "";
+    position: absolute;
+    top: 17px;
+    right: 4px;
+    width: 3px;
+    height: 90%;
+    background: #0175b2;
+}
+
+.education .education_date:last-child .year:after{
+	display: none;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+
+
+.skills .skills_list{
+	display: flexbox;
+	justify-content: space-between;
+	margin-bottom: 1px;
+  color: #509e98;
+}
+
+.skills .skills_list .skills_bar p{
+	position: relative;
+	width: 125px;
+    height: 20px;
+    background: #fff;
+}
+
+.skills .skills_list .skills_bar p span{	
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: #0175b2;
+	width: 100%;
+	height: 100%;
+}
+
+
+
+.job-title {
+  text-transform: capitalize;
+}
+
+.job-title span {
+  color: #509e98;
+  text-decoration: underline;
+}
+
+ul.job-description li:before {
+  content: "✔";
+  padding-right: 0.5em;
+  color: #509e98;
+}
+
+
+
+.education .interests {
+	display: flex;
+	justify-content: space-between;
+	/* text-align: center; */
+  
+}
+
+.int_data {
+  color: #509e98;
+}
+
+
+
+footer {
+ padding: 1em 1.5em;
+ background: #A7B8BF;
+ color: white;
+ text-align: right;
+}
+
+footer video {
+  display: flexbox;
+  flex-direction: row-reverse;
+  justify-content:flex-end;
+}
+
+
+/* адаптация */
+@media only screen and (max-width: 1200px) {
+}
+
+@media only screen and (max-width: 992px) {
+  .course {
+    display: block;
+  }
+
+  .course .title, .course .descrition {
+    max-width: 100%;
+  }
+  header {
+    position:relative;
+    max-width: 100%;
+  }
+  footer {
+    position: relative;
+    max-width: 100%;
+    text-align: center;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .course {
+    display: block;
+  }
+
+  .course .title, .course .descrition {
+    max-width: 100%;
+  }
+  header {
+    position:relative;
+    min-width:400px;
+  }
+  footer {
+    position:relative;
+    min-width:400px;
+    text-align: center;
+  }
+}
+
+@media only screen and (max-width: 576px) {
+  .skills {
+    display: block;
+  }
+
+  .skills .column {
+    max-width: 100%;
+  }
+
+  footer {
+    text-align: center;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+}
+
+/* iphone 12pro */
+@media only screen and (max-width: 390px) {
+  header {
+    position:relative;
+    min-width:400px;
+  }
+  footer {
+    position:relative;
+    min-width:400px;
+    text-align: center;
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  header {
+    position:relative;
+    min-width:380px;
+  }
+  footer {
+    position:relative;
+    min-width:380px;
+    text-align: center;
+  }
+}
+
+
