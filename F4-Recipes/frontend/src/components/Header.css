@@ -1,0 +1,44 @@
+.header {
+    background-color: #f7ebeb;
+    padding: 10px 0;
+  }
+  
+  .nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1360px;
+    margin-left: 10px;
+    
+    padding: 0 20px;
+  }
+  
+  .logo {
+    background-color: rgba(230, 187, 187, 0.9);
+    border-radius: 20px;
+    box-shadow: 0 0 7px #592f2f;
+    width: 130px;
+    height: 60px;
+    vertical-align: middle; /* Выравнивание по вертикали */
+  }
+  
+  .logo-link {
+    text-decoration: none;
+  }
+  
+  .nav-list {
+    text-shadow: 2px 2px 4px rgba(88, 12, 43, 0.7);
+    list-style: none;
+    display: flex;
+    gap: 30px; /* Отступы между элементами */
+  }
+  
+  .nav-link {
+    text-decoration: none;
+    color: #333;
+    transition: color 0.3s; /* Плавный переход цвета */
+  }
+  
+  .nav-link:hover {
+    color: #ff5733; /* Новый цвет при наведении */
+  }

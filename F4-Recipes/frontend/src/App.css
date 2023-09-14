@@ -1,0 +1,14 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: rgba(255, 255, 255, 0.85);
+  background-image: url('http://n1s1.hsmedia.ru/14/a0/3e/14a03ecee3d3ff54d7c333a4edb8ee37/1534x926_0x0a330ca2_17600501711520846599.jpeg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: 100%;
+}
+
+.content {
+  padding: 20px;
+}
+
