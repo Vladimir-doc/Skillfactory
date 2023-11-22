@@ -1,3 +1,12 @@
+**ДИПЛОМНАЯ РАБОТА**
+
+**Задание:**
+
+![task](imgforreadme/task1.png)
+![task](imgforreadme/task2.png)
+![task](imgforreadme/task3.png)
+![task](imgforreadme/task4.png)
+
 
 ### **Быстрый старт:**
 **Для запуска проекта необходимо:**
