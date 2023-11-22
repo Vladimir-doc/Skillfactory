@@ -11,11 +11,9 @@
 ### **Быстрый старт:**
 **Для запуска проекта необходимо:**
 
-1. Клонировать репозиторий 
+1. Клонируем репозиторий. 
 
-    ➡️  [Github repository](https://github.com/Vladimir-doc/Skillfactory/tree/master/Diplom)
-
-2. Установить виртуальное окружение
+2. Устанавливаем виртуальное окружение:
     ```bash 
     python3 -m venv venv
     ```
@@ -23,7 +21,7 @@
     ```bash 
     source ./venv/bin/activate
     ```
-3. Установить `requirements.txt`
+3. Устанавливаем `requirements.txt`
     ```bash 
     pip install -r requirements.txt
     ```
@@ -31,11 +29,11 @@
     ```bash 
     cd silant
     ```
-5. Создать пользователя
+5. Создаем пользователя
     ```bash 
     python3 manage.py createsuperuser
     ```
-6. Запустить сервер
+6. Запускаем сервер
     ```bash 
     python3 manage.py runserver
     ```
@@ -63,10 +61,9 @@ ____
 
 
 
-**Технические моменты**
+**Технические моменты, которые стоит учесть**
 
 1. Импорт данных из Exel в SQL производиться с помощью Django import/expot
-
 
 2. Разметка страницы делиться на :
 - ```header```
