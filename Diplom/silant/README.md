@@ -4,7 +4,7 @@
 
 1. Клонировать репозиторий 
 
-    ➡️  [Github repository](https://github.com/Vladimir-doc/Skillfactory/tree/master/Diplom.git)
+    ➡️  [Github repository](https://github.com/Vladimir-doc/Skillfactory/tree/master/Diplom)
 
 2. Установить виртуальное окружение
     ```bash 
